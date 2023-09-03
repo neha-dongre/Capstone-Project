@@ -1,7 +1,10 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from 'react-router-dom';
 
 const Content = ({ genre }) => {
   const [movies, setMovies] = useState([]);
+  const navigate = useNavigate();
+
 
   useEffect(() => {
     const apiKey = '7919cbbb356453ff220fdebdada5f05e';
@@ -48,6 +51,10 @@ const Content = ({ genre }) => {
     fetchMovies();
   }, [genre]);
 
+  const handleClick = () => {
+    navigate('/genre');
+  };
+
   return (
     <>
       <p style={{ fontFamily: "'Roboto', sans-serif", fontWeight: 600, fontSize: '1.6rem', marginLeft: '3vw', color: 'white' }}>
@@ -69,6 +76,23 @@ const Content = ({ genre }) => {
           );
         })}
       </div>
+      
+      <button
+          style={{
+            position:"fixed",
+            fontSize:"22px",
+            bottom: "0.2rem",
+            right: "5.2rem",
+            background: "green",
+            border: "none",
+            color: "white",
+            padding: "10px 1.6rem",
+            borderRadius: "20px"
+          }}
+          onClick={handleClick}
+        >
+          Category
+        </button>
     </>
   );
 };
