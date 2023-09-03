@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import styles from './RegistrationPage.module.css';
+import { useNavigate } from 'react-router-dom';
 
 const RegistrationPage = () => {
   const [formData, setFormData] = useState({
@@ -27,6 +28,7 @@ const RegistrationPage = () => {
     }));
   };
 
+  const navigate = useNavigate();
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -56,6 +58,7 @@ const RegistrationPage = () => {
       setErrors(newErrors);
     } else {
       localStorage.setItem('registrationData', JSON.stringify(formData));
+      navigate('/Genre');
 
       setFormData({
         Name: '',
