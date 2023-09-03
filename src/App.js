@@ -1,6 +1,8 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Home from './Pages/Home';
+import Genre from './Pages/Genre';
+
 
 export default function App() {
   return (
@@ -8,7 +10,8 @@ export default function App() {
       <BrowserRouter>
         <Routes>
           <Route index element={<Home />} />
-           </Routes>
+          <Route path="/Genre" element={<Genre />} />
+        </Routes>
       </BrowserRouter>
     </div>
   );
