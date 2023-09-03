@@ -1,49 +1,76 @@
-import React from "react";
-import Profile from "../../assets/profileSmall.png"
+import { useEffect, useState } from "react";
 
-const Content = () => {
+const Content = ({ genre }) => {
+  const [movies, setMovies] = useState([]);
+
+  useEffect(() => {
+    const apiKey = '7919cbbb356453ff220fdebdada5f05e';
+    const genreMap = {
+      action: 28,
+      adventure: 12,
+      animation: 16,
+      comedy: 35,
+      crime: 80,
+      documentary: 99,
+      drama: 18,
+      family: 10751,
+      fantasy: 14,
+      history: 36,
+      horror: 27,
+      music: 10402,
+      mystery: 9648,
+      romance: 10749,
+      fiction: 878,
+      thriller: 53,
+      war: 10752,
+      western: 37,
+    };
+    
+    const genreId = genreMap[genre.toLowerCase()];
+
+    if (!genreId) {
+      console.error(`Genre "${genre}" not found in the genreMap.`);
+      return;
+    }
+
+    const url = `https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&with_genres=${genreId}`;
+
+    const fetchMovies = async () => {
+      try {
+        const response = await fetch(url);
+        const data = await response.json();
+        setMovies(data.results.splice(4, 4));
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchMovies();
+  }, [genre]);
 
   return (
     <>
-      <img
-        src={Profile}
-        alt={Profile}
-        style={{
-          position: "absolute",
-          top: "2vh",
-          right: "3vw",
-          height: "60px",
-          width: "60px",
-        }}
-      />
-      <div
-        style={{
-          width: "100vw",
-          minHeight: "100vh",
-          background: "black",
-          overflowX: "hidden",
-        }}
-      >
-        <p style={{ color: "green", fontSize: "4rem", margin: "1vw 3rem" }}>
-          Super app
-        </p>
-        <p
-          style={{
-            color: "white",
-            fontFamily: "'Roboto', sans-serif",
-            fontWeight: 400,
-            fontSize: "2rem",
-            margin: "3vw 5rem",
-          }}
-        >
-          Entertainment according to your choice
-        </p>
+      <p style={{ fontFamily: "'Roboto', sans-serif", fontWeight: 600, fontSize: '1.6rem', marginLeft: '3vw', color: 'white' }}>
+        {genre}
+      </p>
+      <div style={{ gap: '0.2px', display: "flex", marginLeft: "3vw" }}>
+        {movies.map((movie, id) => {
+          return (
+            <div key={id} style={{ width: "22vw", margin: "1rem" }}>
+              <img
+                src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+                style={{ width: "18vw", height: "22vh", objectFit: "cover", borderRadius: "14px" }}
+                alt={`Movie ${id}`}
+              />
+              <p style={{fontFamily: "'Roboto', sans-serif", fontWeight: 400, textAlign: "left", marginTop: "0.5rem", fontSize: "1.2  rem", color: "white" }}>
+                {movie.title}
+              </p>
+            </div>
+          );
+        })}
       </div>
     </>
   );
 };
 
-export default Content ;
-
-
-
+export default Content;
