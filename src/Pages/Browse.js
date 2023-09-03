@@ -29,8 +29,8 @@ const Browse = () => {
       <button
         style={{
           position: "absolute",
-          bottom: "3vh",
-          right: "3vw",
+          bottom: "1vh",
+          right: "8vw",
           background: "green",
           border: "none",
           color: "white",
